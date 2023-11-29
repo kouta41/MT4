@@ -74,16 +74,16 @@ Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to) {
 	Matrix4x4 DirectionToDirection;
 
 	Vector3 cross = Cross(from, to);
-	Vector3 n;
-	if (cross.x == 0 || cross.y == 0 || cross.z == 0) {
+	Vector3 n = Cross(from, to);
+	if (cross.x == 0 && cross.y == 0&& cross.z == 0) {
 		cross = { from.y,-from.x,0 };
 	}
-	n = Normalize(cross);
+	cross = Normalize(cross);
 
 	float angleC = Dot(from,to);
-	float angleS = Length(cross);
+	float angleS = Length(n);
 
-	DirectionToDirection = MakeRotateAxisAngle2(n, angleC, angleS);
+	DirectionToDirection = MakeRotateAxisAngle2(cross, angleC, angleS);
 
 	return DirectionToDirection;
 }
