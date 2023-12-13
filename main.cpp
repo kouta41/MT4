@@ -4,13 +4,13 @@
 
 
 #include "MathFu.h"
+#include "Quaternion.h"
 
 const char kWindowTitle[] = "LE2B_18_ツシマコウタ";
 
 
 static const int kRowHeight = 20;
 static const int kColumnWindth = 60;
-
 
 
 
@@ -96,6 +96,13 @@ void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label
 		}
 	}
 }
+void QuaternionScreenPrintf(int x, int y, const Quaternion& matrix, const char* label) {
+	Novice::ScreenPrintf(x  , y , "%6.02f", matrix.vec.x);
+	Novice::ScreenPrintf(x * kColumnWindth, y , "%6.02f", matrix.vec.y);
+	Novice::ScreenPrintf(x * kColumnWindth*2, y , "%6.02f", matrix.vec.z);
+	Novice::ScreenPrintf(x * kColumnWindth*3, y , "%6.02f", matrix.w);
+	Novice::ScreenPrintf(x * kColumnWindth * 5, y , ":%s", label);
+}
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -120,15 +127,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 		
-		Vector3 from0 = Normalize(Vector3{ 1.0f,0.7f,0.5f });
-		Vector3 to0 = { -from0.x,-from0.y,-from0.z};
-		Vector3 from1 = Normalize(Vector3{ -0.6f,0.9f,0.2f });
-		Vector3 to1 = Normalize(Vector3{ 0.4f,0.7f,-0.5f });
-		Matrix4x4 rotateMatrix0 = DirectionToDirection(
-			Normalize(Vector3{ 1.0f,0.0f,0.0f }), Normalize(Vector3{ -1.0f,0.0f,0.0f }));
-		Matrix4x4 rotateMatrix1 = DirectionToDirection(from0, to0);
-		Matrix4x4 rotateMatrix2 = DirectionToDirection(from1, to1);
-
+		Quaternion q1 = { 2.0f,3.0f,4.0f,1.0f };
+		Quaternion q2 = { 1.0f,3.0f,5.0f,2.0f };
+		Quaternion identity = IdentityQuaternion();
+		Quaternion conji = Conjugate(q1);
+		Quaternion inv = QInverse(q1);
+		Quaternion normal = QNormalize(q1);
+		Quaternion mul1 = Multiply(q1,q2);
+		Quaternion mul2 = Multiply(q2, q1);
+		float norm = Norm(q1);
 		///
 		/// ↑更新処理ここまで
 		///
@@ -136,9 +143,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
-		MatrixScreenPrintf(0, 20, rotateMatrix0, "rotateMatrix0");
-		MatrixScreenPrintf(0, kRowHeight* 6, rotateMatrix1, "rotateMatrix1");
-		MatrixScreenPrintf(0, kRowHeight * 11, rotateMatrix2, "rotateMatrix2");
+		QuaternionScreenPrintf(1, 20, identity, "identity");
+		QuaternionScreenPrintf(1, 20*2, conji, "conji");
+		QuaternionScreenPrintf(1, 20*3, inv, "inv");
+		QuaternionScreenPrintf(1, 20*4, normal, "normal");
+		QuaternionScreenPrintf(1, 20*5, mul1, "mul1");
+		QuaternionScreenPrintf(1, 20*6, mul2, "mul2");
+
+		Novice::ScreenPrintf(1, 20*7, "%6.02f", norm);
+		Novice::ScreenPrintf(1 * kColumnWindth * 5, 20 * 7, ":Norm");
+
+
+
+		//MatrixScreenPrintf(0, kRowHeight* 6, rotateMatrix1, "rotateMatrix1");
+		//MatrixScreenPrintf(0, kRowHeight * 11, rotateMatrix2, "rotateMatrix2");
 		///
 		/// ↑描画処理ここまで
 		///
