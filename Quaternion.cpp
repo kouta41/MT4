@@ -53,6 +53,30 @@ Quaternion QInverse(const Quaternion& quaternion)
 	return result;
 }
 
+Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle)
+{
+	Quaternion result;
+	result.vec.x = axis.x * std::sinf(angle / 2.0f);
+	result.vec.y = axis.y * std::sinf(angle / 2.0f);
+	result.vec.z = axis.z * std::sinf(angle / 2.0f);
+	result.w = std::cosf(angle / 2.0f);
+
+}
+
+Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion)
+{
+	Vector3 result;
+	Quaternion n;
+	n.vec.x = vector.x;
+	n.vec.y = vector.y;
+	n.vec.z = vector.z;
+	n.w = Length(vector);
+
+	Quaternion a = Multiply(Multiply(quaternion, n), Conjugate(quaternion));
+
+	result.x = a.vec.x;
+}
+
 Vector3 operator+(const Vector3& a, const Vector3& b) {
 	Vector3 c = { a.x + b.x,a.y + b.y ,a.z + b.z };
 

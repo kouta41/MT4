@@ -150,7 +150,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		QuaternionScreenPrintf(1, 20*5, mul1, "mul1");
 		QuaternionScreenPrintf(1, 20*6, mul2, "mul2");
 
-		Novice::ScreenPrintf(1, 20*7, "%6.02f", norm);
+		//Novice::ScreenPrintf(1, 20*7, "%6.02f", norm);
 		Novice::ScreenPrintf(1 * kColumnWindth * 5, 20 * 7, ":Norm");
 
 

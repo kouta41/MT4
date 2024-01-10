@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include<Vector3.h>
+#include <Vector3.h>
 #include <Vector4.h>
 #include <iostream>
 #include <cassert>
@@ -23,6 +23,13 @@ float Norm(const Quaternion& quaternion);
 Quaternion QNormalize(const Quaternion& quaternion);
 // 逆quaternion
 Quaternion QInverse(const Quaternion& quaternion);
+
+Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle);
+
+Vector3 RotateVector(const Vector3& vector, const Quaternion& quaternion);
+
+
+Matrix4x4  MakeRotateMatrix(const Quaternion& quaternion);
 
 Vector3 operator+(const Vector3& a, const Vector3& b);
 
