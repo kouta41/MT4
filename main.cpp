@@ -97,13 +97,14 @@ void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label
 	}
 }
 void QuaternionScreenPrintf(int x, int y, const Quaternion& matrix, const char* label) {
-	Novice::ScreenPrintf(x  , y , "%6.02f", matrix.vec.x);
-	Novice::ScreenPrintf(x * kColumnWindth, y , "%6.02f", matrix.vec.y);
-	Novice::ScreenPrintf(x * kColumnWindth*2, y , "%6.02f", matrix.vec.z);
+	Novice::ScreenPrintf(x  , y , "%6.02f", matrix.x);
+	Novice::ScreenPrintf(x * kColumnWindth, y , "%6.02f", matrix.y);
+	Novice::ScreenPrintf(x * kColumnWindth*2, y , "%6.02f", matrix.z);
 	Novice::ScreenPrintf(x * kColumnWindth*3, y , "%6.02f", matrix.w);
 	Novice::ScreenPrintf(x * kColumnWindth * 5, y , ":%s", label);
 }
 
+float norm = 0.0f;
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
@@ -135,7 +136,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Quaternion normal = QNormalize(q1);
 		Quaternion mul1 = Multiply(q1,q2);
 		Quaternion mul2 = Multiply(q2, q1);
-		float norm = Norm(q1);
+		norm = Norm(q1);
 		///
 		/// ↑更新処理ここまで
 		///
