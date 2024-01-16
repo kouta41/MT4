@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 #include "MathFu.h"
+#include "Matrix4x4.h"
 
 struct Quaternion {
 	float x;
@@ -12,9 +13,6 @@ struct Quaternion {
 	float w;
 };	
 
-struct Matrix4x4 final {
-	float m[4][4];
-};
 
 // 積
 Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
