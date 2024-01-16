@@ -97,9 +97,9 @@ void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label
 	}
 }
 void QuaternionScreenPrintf(int x, int y, const Quaternion& matrix, const char* label) {
-	Novice::ScreenPrintf(x  , y , "%6.02f", matrix.vec.x);
-	Novice::ScreenPrintf(x * kColumnWindth, y , "%6.02f", matrix.vec.y);
-	Novice::ScreenPrintf(x * kColumnWindth*2, y , "%6.02f", matrix.vec.z);
+	Novice::ScreenPrintf(x  , y , "%6.02f", matrix.x);
+	Novice::ScreenPrintf(x * kColumnWindth, y , "%6.02f", matrix.y);
+	Novice::ScreenPrintf(x * kColumnWindth*2, y , "%6.02f", matrix.z);
 	Novice::ScreenPrintf(x * kColumnWindth*3, y , "%6.02f", matrix.w);
 	Novice::ScreenPrintf(x * kColumnWindth * 5, y , ":%s", label);
 }
@@ -127,15 +127,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 		
-		Quaternion q1 = { 2.0f,3.0f,4.0f,1.0f };
-		Quaternion q2 = { 1.0f,3.0f,5.0f,2.0f };
-		Quaternion identity = IdentityQuaternion();
-		Quaternion conji = Conjugate(q1);
-		Quaternion inv = QInverse(q1);
-		Quaternion normal = QNormalize(q1);
-		Quaternion mul1 = Multiply(q1,q2);
-		Quaternion mul2 = Multiply(q2, q1);
-		float norm = Norm(q1);
+		Quaternion rotation0 = MakeRotateAxisAngleQuaternion({ 0.71f,0.71f,0.0f }, 0.3f);
+		Quaternion rotation1 = MakeRotateAxisAngleQuaternion({ 0.71f,0.0f,0.71f }, 3.141592f);
+
+		Quaternion interpolat0 = Slerp(rotation0, rotation1, 0.0f);
+		Quaternion interpolat1 = Slerp(rotation0, rotation1, 0.3f);
+		Quaternion interpolat2 = Slerp(rotation0, rotation1, 0.5f);
+		Quaternion interpolat3 = Slerp(rotation0, rotation1, 0.7f);
+		Quaternion interpolat4 = Slerp(rotation0, rotation1, 1.0f);
+
 		///
 		/// ↑更新処理ここまで
 		///
@@ -143,15 +143,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
-		QuaternionScreenPrintf(1, 20, identity, "identity");
-		QuaternionScreenPrintf(1, 20*2, conji, "conji");
-		QuaternionScreenPrintf(1, 20*3, inv, "inv");
-		QuaternionScreenPrintf(1, 20*4, normal, "normal");
-		QuaternionScreenPrintf(1, 20*5, mul1, "mul1");
-		QuaternionScreenPrintf(1, 20*6, mul2, "mul2");
+		QuaternionScreenPrintf(1, 20, interpolat0, "interpolat0");
+		QuaternionScreenPrintf(1, 20*2, interpolat1, "interpolat1");
+		QuaternionScreenPrintf(1, 20*3, interpolat2, "interpolat2");
+		QuaternionScreenPrintf(1, 20*4, interpolat3, "interpolat3");
+		QuaternionScreenPrintf(1, 20*5, interpolat4, "interpolat4");
 
-		//Novice::ScreenPrintf(1, 20*7, "%6.02f", norm);
-		Novice::ScreenPrintf(1 * kColumnWindth * 5, 20 * 7, ":Norm");
+		////Novice::ScreenPrintf(1, 20*7, "%6.02f", norm);
+		//Novice::ScreenPrintf(1 * kColumnWindth * 5, 20 * 7, ":Norm");
 
 
 
